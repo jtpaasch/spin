@@ -73,12 +73,14 @@ If you want to edit the configuration and provision your VM in a particular way,
 Global config
 -------------
 
-Default (global) configuration files are stored in a `.spin` folder, which resides in your home directory:
+By default, `spin` creates bare CentOS 6.3 VMs. You can change that if you like. 
+
+The default/global configuration files are stored in a `.spin` folder, which resides in your home directory:
 
     $ cd ~/.spin
     $ ls -la 
 
-If you change the configuration here, `spin` will use it for any new VMs it creates. This will not affect any VMs you've already created. Only new VMs you create going forward.
+Once you change the configuration here, `spin` will use it for any new VM it creates. This will not affect any VMs you've already created.
 
 
 
