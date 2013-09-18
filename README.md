@@ -4,6 +4,15 @@ Spin
 This is a simple command line tool that lets *nix users spin up VMs quickly and easily. It is really just a wrapper for vagrant and puppet. (It is much like [Spinup.py](https://github.com/jpaasch/Spinup.py), just simpler and, for me anyway, more convenient).
 
 
+Requirements
+------------
+
+- a *nix system.
+- vagrant 1.2 (vagrant 1.1 will not work!)
+- puppet
+- git
+
+
 Installation
 ------------
 
