@@ -20,22 +20,16 @@ Exec {
     ],
 }
 
-# Install vim
-############################################
-package { "vim":
-    ensure => latest,
-}
-
 # Install emacs-nox
 ############################################
 package { "emacs-nox":
-    ensure => latest,
+    ensure => present,
 }
 
 # Install git
 ############################################
 package { "git":
-    ensure => latest,
+    ensure => present,
 }
 
 
