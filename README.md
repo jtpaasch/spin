@@ -9,7 +9,7 @@ Requirements
 
 - a *nix system.
 - vagrant 1.2 (vagrant 1.1 will not work!)
-- puppet
+- puppet (standalone is fine)
 - git
 
 
