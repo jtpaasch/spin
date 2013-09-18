@@ -67,7 +67,7 @@ The vagrant and puppet files are stored in their respective folders:
     my-vm/.devbox/vagrant/Vagrantfile
     my-vm/.devbox/puppet/default.pp
 
-If you want to edit the configuration and provision your VM in a particular way, edit those files. You can do the same for any other VM you've created. Just go into its .devbox folder and edit the relevant files.
+If you want to edit the configuration and provision your VM in a particular way, edit those files. You can do the same for any other VM you've created. Just go into its `.devbox` folder and edit the relevant files.
 
 
 Global config
