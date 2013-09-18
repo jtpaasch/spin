@@ -1,0 +1,45 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+#######################################################################
+#
+#    VAGRANT CONFIG FILE
+#
+#    Sets up a basic vagrant box VM.
+#    Copyright 2013 JT Paasch
+#
+
+
+# USING VAGRANT 1.2!! Vagrant 1.1 and lower will not work here.
+Vagrant.configure("2") do |config|
+
+  # The name of the base box.
+  config.vm.box = "centos-6.3"
+
+  # The url to fetch the base box from, if it doesn't exist.
+  config.vm.box_url = "https://s3.amazonaws.com/itmat-public/centos-6.3-chef-10.14.2.box"
+
+  # The following creates a forwarded port mapping which allows access 
+  # to a specific port within the machine from a port on the host machine. 
+
+  # The webserver can run on port 8500.
+  config.vm.network :forwarded_port, guest: 80,   host: 8500
+
+  # Other things can run on port 8000.
+  config.vm.network :forwarded_port, guest: 8000, host: 8000
+
+  # Make the VM publically available.
+  config.vm.network :public_network
+
+  # Share a folder with the VM.
+  config.vm.synced_folder "..", "/srv/http"
+
+  # Add 1 gig of memory to the VM.
+  config.vm.provider :virtualbox do |vb|                                   
+      vb.customize ["modifyvm", :id, "--memory", "1024"]                     
+  end
+
+  # Let Puppet do the provisioning.
+  config.vm.provision :puppet, :options => '--verbose'
+
+end
