@@ -60,7 +60,7 @@ Local config
 For each VM, `spin` stores its config files in a hidden folder called `.devbox`. You can see the contents of that folder if you like:
 
     $ cd my-vm
-    $ ls -la my-vm/.devbox
+    $ ls -la .devbox
 
 The vagrant and puppet files are stored in their respective folders:
 
