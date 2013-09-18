@@ -123,7 +123,11 @@ void init() {
  *  @return void
  */
 void print_usage() {
-  printf("Usage: nara-vm [commands]\n");
+  printf("Usage: spin [command]\n");
+  printf("-- spin up      : creates and boots up a VM\n");
+  printf("-- spin down    : shut down the VM\n");
+  printf("-- spin ssh     : SSH into the VM\n");
+  printf("-- spin destroy : remove the VM from your system\n");
 }
 
 /*
