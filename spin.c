@@ -1,9 +1,11 @@
-/*
+/************************************************
+ *
  *    SPIN
  *
  *    Sets up a vagrant box VM.
  *    Copyright 2013 JT Paasch
- */          
+ *
+ ************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,6 +47,7 @@ void print_message(const char *message);
 void print_log(const char *message);
 void create_directory(const char *name);
 void copy_file(const char *source_file, const char *destination_file);
+void check_for_virtualbox();
 void check_for_vagrant();
 void check_for_puppet();
 void check_for_git();
@@ -268,6 +271,44 @@ void copy_file(const char *source_file, const char *destination_file) {
 }
 
 /*
+ *  Check for virtualbox.
+ *
+ *  @return void
+ */
+void check_for_virtualbox() {
+
+  // Print a message
+  print_log("checking for virtualbox");
+
+  // Does virtualbox exist?
+  int exit_code = system("which virtualbox >/dev/null 2>&1");
+
+  // An exit code of 256 means it does not exist.
+  if (exit_code == 256) {
+    printf("I cannot find virtualbox on your computer.\n");
+    printf("Please install virtualbox, then run me again.\n");
+    exit(1);
+  } 
+
+  // An exit code of 0 means it does exist.
+  else if (exit_code == 0) {
+
+    // Report the status.
+    print_log("-- virtualbox exists");
+    print_log("-- moving on...");
+
+  }
+
+  // Otherwise, provide a generic error message.
+  else {
+    printf("I could not find virtualbox on your computer.\n");
+    printf("I got an error when I looked for it.\n");
+    exit(1);
+  }
+
+}
+
+/*
  *  Check for vagrant.
  *
  *  @return void
@@ -315,14 +356,16 @@ void check_for_vagrant() {
     pclose(stream);
 
     // Print the version.
-    char version_message[15];
+    char version_message[18];
     sprintf(version_message, "-- version %s", output);
     print_log(version_message);
 
     // Version needs to be 1.2.
-    if (strcmp(output, "1.2") != 0) {
-      printf("Vagrant 1.2 is required. 1.1 or lower will not work.\n");
-      printf("Upgrade to version 1.2 and try me again.\n");
+    int major, minor;
+    sscanf(output, "%d.%d", &major, &minor);
+    if (major < 1 || minor < 2) {
+      printf("Vagrant 1.2+ is required. 1.1 or lower will not work.\n");
+      printf("Upgrade to version 1.2+ and try me again.\n");
       exit(1);
     } else {
       print_log("-- moving on...");
@@ -433,6 +476,9 @@ void spinup_box() {
 
   // Copy over the default manifest (if absent).
   copy_file(manifest_source_path, manifest_destination);
+
+  // Make sure virtualbox is installed.
+  check_for_virtualbox();
 
   // Make sure the right version of vagrant is installed.
   check_for_vagrant();
