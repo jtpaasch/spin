@@ -23,10 +23,7 @@ Vagrant.configure("2") do |config|
   # to a specific port within the machine from a port on the host machine. 
 
   # The webserver can run on port 8500.
-  config.vm.network :forwarded_port, guest: 80,   host: 8500
-
-  # Other things can run on port 8000.
-  config.vm.network :forwarded_port, guest: 8000, host: 8000
+  config.vm.network :forwarded_port, guest: 80, host: 8500, autocorrect: true 
 
   # Make the VM publically available.
   config.vm.network :public_network
