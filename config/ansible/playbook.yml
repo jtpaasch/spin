@@ -1,0 +1,19 @@
+---
+
+# Which machines should we apply this playbook to?
+- hosts: all
+
+  tasks:
+
+    # ======================================================
+    # Useful tools
+    # ======================================================
+
+    - name: install some useful tools
+      sudo: yes
+      yum: pkg={{ item }} state=installed
+      with_items:
+        - git 
+        - emacs-nox
+        - vim
+

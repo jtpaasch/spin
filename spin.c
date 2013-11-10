@@ -24,9 +24,9 @@ const int verbose = 1;
 const char *devbox_folder = ".devbox";
 const char *vagrantfile_source = ".spin/config/vagrant/Vagrantfile";
 const char *vagrantfile_destination = ".devbox/Vagrantfile";
-const char *manifests_folder = ".devbox/manifests";
-const char *manifest_source = ".spin/config/puppet/default.pp";
-const char *manifest_destination = ".devbox/manifests/default.pp";
+const char *playbook_folder = ".devbox/ansible";
+const char *playbook_source = ".spin/config/ansible/playbook.yml";
+const char *playbook_destination = ".devbox/ansible/playbook.yml";
 
 
 /*
@@ -35,7 +35,7 @@ const char *manifest_destination = ".devbox/manifests/default.pp";
  */
 char home_dir[50];
 char vagrantfile_source_path[100];
-char manifest_source_path[100];
+char playbook_source_path[100];
 
 
 /*
@@ -49,7 +49,7 @@ void create_directory(const char *name);
 void copy_file(const char *source_file, const char *destination_file);
 void check_for_virtualbox();
 void check_for_vagrant();
-void check_for_puppet();
+void check_for_ansible();
 void check_for_git();
 void spinup_box();
 void spindown_box();
@@ -116,7 +116,7 @@ void init() {
   // Initialize some variables.
   sprintf(home_dir, "%s", getenv("HOME"));
   sprintf(vagrantfile_source_path, "%s/%s", home_dir, vagrantfile_source);
-  sprintf(manifest_source_path, "%s/%s", home_dir, manifest_source);
+  sprintf(playbook_source_path, "%s/%s", home_dir, playbook_source);
 
 }
 
@@ -383,22 +383,22 @@ void check_for_vagrant() {
 }
 
 /*
- *  Check for puppet.
+ *  Check for ansible.
  *
  *  @return void
  */
-void check_for_puppet() {
+void check_for_ansible() {
 
   // Print a message
-  print_log("checking for puppet");
+  print_log("checking for ansible");
 
-  // Does puppet exist?
-  int exit_code = system("which puppet >/dev/null 2>&1");
+  // Does ansible exist?
+  int exit_code = system("which ansible >/dev/null 2>&1");
 
   // An exit code of 256 means it does not exist.
   if (exit_code == 256) {
-    printf("I cannot find puppet on your computer.\n");
-    printf("Please install puppet, then run me again.\n");
+    printf("I cannot find ansible on your computer.\n");
+    printf("Please install ansible, then run me again.\n");
     exit(1);
   } 
 
@@ -406,14 +406,14 @@ void check_for_puppet() {
   else if (exit_code == 0) {
 
     // Report the status.
-    print_log("-- puppet exists");
+    print_log("-- ansible exists");
     print_log("-- moving on...");
 
   }
 
   // Otherwise, provide a generic error message.
   else {
-    printf("I could not find puppet on your computer.\n");
+    printf("I could not find ansible on your computer.\n");
     printf("I got an error when I looked for it.\n");
     exit(1);
   }
@@ -471,11 +471,11 @@ void spinup_box() {
   // Copy over a Vagrantfile (if absent).
   copy_file(vagrantfile_source_path, vagrantfile_destination);
 
-  // Create a manifests folder (if absent).
-  create_directory(manifests_folder);
+  // Create a playbook folder (if absent).
+  create_directory(playbook_folder);
 
-  // Copy over the default manifest (if absent).
-  copy_file(manifest_source_path, manifest_destination);
+  // Copy over the default playbook (if absent).
+  copy_file(playbook_source_path, playbook_destination);
 
   // Make sure virtualbox is installed.
   check_for_virtualbox();
@@ -483,8 +483,8 @@ void spinup_box() {
   // Make sure the right version of vagrant is installed.
   check_for_vagrant();
 
-  // Make sure puppet is installed.
-  check_for_puppet();
+  // Make sure ansible is installed.
+  check_for_ansible();
 
   // Make sure git is installed.
   check_for_git();
