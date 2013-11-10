@@ -1,15 +1,16 @@
 Spin
 ====
 
-This is a simple command line tool that lets *nix users spin up VMs quickly and easily. It is really just a wrapper for vagrant and puppet. (It is much like [Spinup.py](https://github.com/jpaasch/Spinup.py), just simpler and, for me anyway, more convenient).
+This is a simple command line tool for spinning up VMs quickly and easily. It is really just a wrapper for vagrant and ansible (much like [Spinup.py](https://github.com/jpaasch/Spinup.py), just simpler).
 
 
 Requirements
 ------------
 
-- a *nix system.
-- vagrant 1.2 (vagrant 1.1 will not work!)
-- puppet (standalone is fine)
+- a *nix system
+- virtualbox
+- vagrant 1.2+
+- ansible
 - git
 
 
@@ -20,7 +21,7 @@ Download or clone this repo, navigate into the main folder, and then run the `ma
 
     $ make
 
-Then to install it, just run the `make install` command:
+Then to install it, run the `make install` command:
 
     $ make install
 
@@ -30,7 +31,7 @@ That's it. Now the command `spin` is available.
 Usage
 -----
 
-To create a VM, create a folder to house it, and navigate into that folder:
+To create a VM, make a folder to house it, and navigate into that folder:
 
     $ mkdir my-vm
     $ cd my-vm
@@ -62,10 +63,10 @@ For each VM, `spin` stores its config files in a hidden folder called `.devbox`.
     $ cd my-vm
     $ ls -la .devbox
 
-The vagrant and puppet files are stored in their respective folders:
+The vagrant and ansible files are stored in their respective folders:
 
     my-vm/.devbox/vagrant/Vagrantfile
-    my-vm/.devbox/puppet/default.pp
+    my-vm/.devbox/ansible/playbook.yml
 
 If you want to edit the configuration and provision your VM in a particular way, edit those files. You can do the same for any other VM you've created. Just go into its `.devbox` folder and edit the relevant files.
 
@@ -73,14 +74,14 @@ If you want to edit the configuration and provision your VM in a particular way,
 Global config
 -------------
 
-By default, `spin` creates bare CentOS 6.3 VMs. You can change that if you like. 
+By default, `spin` creates CentOS 6.4 VMs. You can change that if you like. 
 
 The default/global configuration files are stored in a `.spin` folder, which resides in your home directory:
 
     $ cd ~/.spin
     $ ls -la 
 
-Once you change the configuration here, `spin` will use it for any new VM it creates. This will not affect any VMs you've already created.
+Once you change the configuration there, `spin` will use it for any new VM it creates. This will not affect any VMs you've already created.
 
 
 
