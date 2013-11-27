@@ -351,6 +351,9 @@ void check_for_vagrant() {
 
     // Remove the ending \n character from the output.
     output[strlen(output)-1] = 0;
+    if (output[strlen(output)-1] == '\n' || output[strlen(output)-1] == '\r') {
+       output[strlen(output)-1] = 0;
+    }
 
     // Close the command stream.
     pclose(stream);
