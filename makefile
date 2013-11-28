@@ -1,22 +1,26 @@
 # Which compiler?
-CC=gcc
-
-# The files to compile.
-FILES = spin.c
-
-# The executable to create.
-OUTPUT = spin
+CC = gcc
 
 # Flags for the compiler.
 FLAGS = -Wall
 
+# The build directory.
+BUILD_DIRECTORY = build
+
+# The files to compile.
+FILES = spin.c utilities.c
+
+# The executable to create.
+OUTPUT = $(BUILD_DIRECTORY)/spin
+
 # Compile the executable.
 build: $(FILES)
-	$(CC) $(FLAGS) -o $(OUTPUT) $(FILES)
+	@mkdir -p $(BUILD_DIRECTORY)
+	@$(CC) $(FLAGS) -o $(OUTPUT) $(FILES)
 
 # Clean up the files for a fresh start.
 clean:
-	rm -f $(OUTPUT)
+	rm -fr $(BUILD_DIRECTORY)
 
 # Clean and build.
 rebuild: clean build
@@ -25,7 +29,7 @@ rebuild: clean build
 install:
 	@echo "Installing..."
 	@echo "-- install spin /usr/local/bin"
-	@sudo install spin /usr/local/bin
-	@if [ ! -d ~/.spin ]; then echo "-- copy config to ~/.spin"; mkdir ~/.spin; fi;
-	@sudo cp -r config ~/.spin/
+	@sudo install $(OUTPUT) /usr/local/bin
+	@if [ ! -d $(HOME)/.spin ]; then echo "-- copy config to $(HOME)/.spin"; mkdir $(HOME)/.spin; fi;
+	@sudo cp -r config $(HOME)/.spin/
 	@echo "-- done"
