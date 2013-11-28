@@ -54,6 +54,7 @@ void check_for_git();
 void spinup_box();
 void spindown_box();
 void ssh_box();
+void provision_box();
 void destroy_box();
 
 
@@ -86,6 +87,11 @@ int main(int number_arguments, char *argument[]) {
     // For "ssh" commands.
     else if (strcmp(argument[1], "ssh") == 0) {
       ssh_box();
+    }
+
+    // For "provision" commands.
+    else if (strcmp(argument[1], "provision") == 0) {
+      provision_box();
     }
 
     // For "destroy" commands.
@@ -518,6 +524,18 @@ void ssh_box() {
 
   // Run `vagrant ssh`.
   system("cd .devbox && vagrant ssh");
+
+}
+
+/*
+ *  Re-provision the VM.
+ *
+ *  @return void
+ */
+void provision_box() {
+
+  // Run `vagrant provision`.
+  system("cd .devbox && vagrant provision");
 
 }
 
