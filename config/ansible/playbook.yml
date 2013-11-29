@@ -13,7 +13,6 @@
       sudo: yes
       yum: pkg={{ item }} state=installed
       with_items:
-        - git 
+        - git
         - emacs-nox
         - vim
-

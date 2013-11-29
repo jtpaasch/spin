@@ -3,42 +3,49 @@
 
 #######################################################################
 #
-#    VAGRANT CONFIG FILE
+#  VAGRANT CONFIG FILE
 #
-#    Sets up a basic vagrant box VM.
-#    Copyright 2013 JT Paasch
+#  Sets up a basic vagrant box VM.
+#  Copyright 2013 JT Paasch
 #
 
+# Vagrant >=v1.2 required.
+VAGRANTFILE_API_VERSION = '2'
 
-# USING VAGRANT 1.2+!! Vagrant 1.1 and lower will not work here.
-Vagrant.configure("2") do |config|
-
+Vagrant.configure VAGRANTFILE_API_VERSION do |configure|
   # The name of the base box.
-  config.vm.box = "centos-6.4"
+  configure.vm.box = 'centos-6.4'
 
   # The url to fetch the base box from, if it doesn't exist.
-  config.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20131103.box"
+  configure.vm.box_url = 'http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20131103.box'
 
-  # The following creates a forwarded port mapping which allows access 
-  # to a specific port within the machine from a port on the host machine. 
+  # Use a private network which makes it possible to access any open ports on the guest via the IP address.
+  configure.vm.network :private_network, ip: '10.36.54.30'
 
-  # A webserver can run on port 3750.
-  config.vm.network :forwarded_port, guest: 80, host: 3750, autocorrect: true
+  # Change some VirtualBox defaults.
+  configure.vm.provider :virtualbox do |virtualbox|
+    # Disable accelerated 3D graphics.
+    virtualbox.customize [
+      'modifyvm',
+      :id,
+      '--accelerate3d',
+      'off',
+    ]
 
-  # Make the VM publically available.
-  config.vm.network :public_network
-
-  # Share a folder with the VM.
-  config.vm.synced_folder "..", "/srv/http"
-
-  # Add 1 gig of memory to the VM.
-  config.vm.provider :virtualbox do |vb|                                   
-      vb.customize ["modifyvm", :id, "--memory", "1024"]                     
+    # Add 512MB of memory to the VM.
+    virtualbox.customize [
+      'modifyvm',
+      :id,
+      '--memory',
+      '512',
+    ]
   end
 
   # Let Ansible do the provisioning.
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "ansible/playbook.yml"
+  configure.vm.provision 'ansible' do |ansible|
+    ansible.playbook = 'ansible/playbook.yml'
   end
 
+  # Share a folder with the VM.
+  configure.vm.synced_folder '..', '/srv/http'
 end
