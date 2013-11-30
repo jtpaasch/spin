@@ -132,10 +132,11 @@ void print_usage() {
 
   printf("Usage: spin [command]\n");
   printf("\n");
-  printf("\t-- spin up      : creates and boots up a VM\n");
-  printf("\t-- spin down    : shut down the VM\n");
-  printf("\t-- spin ssh     : SSH into the VM\n");
-  printf("\t-- spin destroy : remove the VM from your system\n");
+  printf("\t-- spin up        : creates and boots up a VM\n");
+  printf("\t-- spin down      : shut down the VM\n");
+  printf("\t-- spin ssh       : SSH into the VM\n");
+  printf("\t-- spin provision : re-provision the VM\n");
+  printf("\t-- spin destroy   : remove the VM from your system\n");
 
 }
 
