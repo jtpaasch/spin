@@ -1,7 +1,7 @@
 Spin
 ====
 
-This is a simple command line tool for spinning up VMs quickly and easily. It is really just a wrapper for vagrant and ansible (much like [Spinup.py](https://github.com/jpaasch/Spinup.py), just simpler).
+This is a simple command line tool for spinning up VMs quickly and easily. It is really just a wrapper for vagrant and ansible, just simpler. 
 
 
 Requirements
