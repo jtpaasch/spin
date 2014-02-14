@@ -9,7 +9,8 @@ void check_for_git();
 void check_for_vagrant();
 void check_for_virtualbox();
 void copy_file(const char *source_file, const char *destination_file);
-void create_directory(const char *name);
+void create_directory(char *name);
+int find_file(char *path, const char *target);
 void print_log(const char *message);
 
 #endif

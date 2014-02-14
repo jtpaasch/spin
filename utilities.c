@@ -4,7 +4,14 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <dirent.h>
 #include "utilities.h"
+
+/*
+ *  A NON-CONSTANT 
+ *  THAT CAN BE SET BY THE FIND_FILE() FUNCTION
+ */
+char found_path[1024];
 
 /*
  *  Check for ansible.
@@ -298,16 +305,13 @@ void copy_file(const char *source_file, const char *destination_file) {
  *  @param char *name The name of the directory.
  *  @return void
  */
-void create_directory(const char *name) {
+void create_directory(char *name) {
 
   // Print message: "-- creating directory: *name"
-  char message[50];
-
+  char message[100];
   message[0] = '\0';
-
   strcat(message, "creating directory: ");
   strcat(message, name);
-
   print_log(message);
 
   // Try to create the directory.
@@ -336,6 +340,67 @@ void create_directory(const char *name) {
   else {
     print_log("-- could not create directory");
     exit(1);
+  }
+
+}
+
+/*
+ *  Walk up a directory tree, looking 
+ *  for a file or folder.
+ *
+ *  @param char *path The path to start looking in.
+ *  @param char *target The name of the file or folder to find.
+ *  @return int
+ */
+int find_file(char *path, const char *target) {
+
+  DIR *stream;
+  struct dirent *item;
+
+  // Open the directory.
+  stream = opendir(path);
+  if (stream != NULL) {
+
+    // Check each item in the directory.
+    while ((item = readdir(stream))) {
+
+      // If this is the item we're looking for, note the path.
+      if (strcmp(item->d_name, target) == 0) {
+        found_path[0] = '\0';
+        strcat(found_path, path);
+        strcat(found_path, "/");
+        strcat(found_path, target);
+        return 1;
+      }
+
+    }
+
+    // We didn't find what we're looking for, so let's go up one level.
+    // What's the path to the parent directory?
+    char parent_directory[strlen(path) + 4];
+    char full_path[1024];
+    parent_directory[0] = '\0';
+    strcat(parent_directory, path);
+    strcat(parent_directory, "/../");
+
+    // Check the parent directory.
+    int success;
+    realpath(parent_directory, full_path);
+    if (strcmp(full_path, "/") == 0) {
+      success = 0;
+    } else {
+      success = find_file(full_path, target);
+    }
+
+    // Close the stream and return the results.
+    (void) closedir(stream);
+    return success;
+
+  }
+
+  // We couldn't open the directory.
+  else {
+    return 0;
   }
 
 }
