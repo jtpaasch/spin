@@ -28,7 +28,7 @@ const char *playbook_filename = "playbook.yml";
 
 /*
  *  SOME NON-CONSTANT VARIABLES
- *  THAT WILL BE INITIALIZED IN THE MAIN() FUNCTION
+ *  THAT WILL BE INITIALIZED IN THE INIT() FUNCTION
  */
 char home_dir[HOME_DIR_MAX_LENGTH];
 char devbox_path[DESTINATION_PATH_MAX_LENGTH];
