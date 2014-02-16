@@ -105,8 +105,7 @@ void check_for_vagrant() {
   // An exit code of 256 means it does not exist.
   if (exit_code == 256) {
     printf("I cannot find Vagrant on your computer.\n");
-    printf("Please install Vagrant 1.2+, then run me again.\n");
-    printf("NOTE: Vagrant 1.1 or lower will not work.\n");
+    printf("Please install Vagrant 1.4.3+, then run me again.\n");
     exit(1);
   }
 
@@ -120,7 +119,7 @@ void check_for_vagrant() {
     print_log("checking version");
 
     // Run a command that gets the version number.
-    FILE *stream = popen("vagrant -v | grep -o '[0-9]\\.[0-9]'", "r");
+    FILE *stream = popen("vagrant -v | grep -o '[0-9]\\.[0-9]\\.[0-9]'", "r");
 
     // Read the results, character by character, into the string 'output'.
     char character;
@@ -149,12 +148,12 @@ void check_for_vagrant() {
 
     print_log(version_message);
 
-    // Version needs to be 1.2.
-    int major, minor;
-    sscanf(output, "%d.%d", &major, &minor);
-    if (major < 1 || minor < 2) {
-      printf("Vagrant >=1.2 is required. 1.1 or lower will not work.\n");
-      printf("Upgrade to version >=1.2 and try me again.\n");
+    // Version needs to be 1.4.3+
+    int major, minor, revision;
+    sscanf(output, "%d.%d.%d", &major, &minor, &revision);
+    if (major < 1 || minor < 2 || revision < 3) {
+      printf("Vagrant 1.4.3+ is required.\n");
+      printf("Upgrade to version 1.4.3+ and try me again.\n");
       exit(1);
     } else {
       print_log("-- moving on...");
