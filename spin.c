@@ -212,7 +212,7 @@ void spinup_box() {
   check_for_git();
 
   // Run `vagrant up`.
-  char command[150];
+  char command[1024];
   command[0] = '\0';
   strcat(command, "cd ");
   strcat(command, devbox_path);
@@ -229,7 +229,7 @@ void spinup_box() {
 void spindown_box() {
 
   // Run `vagrant halt`.
-  char command[150];
+  char command[1024];
   command[0] = '\0';
   strcat(command, "cd ");
   strcat(command, devbox_path);
@@ -246,7 +246,7 @@ void spindown_box() {
 void ssh_box() {
 
   // Run `vagrant ssh`.
-  char command[150];
+  char command[1024];
   command[0] = '\0';
   strcat(command, "cd ");
   strcat(command, devbox_path);
@@ -263,7 +263,7 @@ void ssh_box() {
 void provision_box() {
 
   // Run `vagrant provision`.
-  char command[150];
+  char command[1024];
   command[0] = '\0';
   strcat(command, "cd ");
   strcat(command, devbox_path);
@@ -280,7 +280,7 @@ void provision_box() {
 void destroy_box() {
 
   // Run `vagrant destroy`.
-  char command[150];
+  char command[1024];
   command[0] = '\0';
   strcat(command, "cd ");
   strcat(command, devbox_path);
