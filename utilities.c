@@ -115,7 +115,7 @@ void check_for_vagrant() {
     // Report the status.
     print_log("-- vagrant exists");
 
-    // Check if it's version 1.2 or higher.
+    // Report that we're checking the version.
     print_log("checking version");
 
     // Run a command that gets the version number.
@@ -129,28 +129,19 @@ void check_for_vagrant() {
       output[i++] = character;
     }
 
-    // Remove the ending \n character from the output.
-    output[strlen(output)-1] = 0;
-    if (output[strlen(output)-1] == '\n' || output[strlen(output)-1] == '\r') {
-       output[strlen(output)-1] = 0;
-    }
-
     // Close the command stream.
     pclose(stream);
 
+    // Find the major, minor, and revision digits in the version.
+    int major, minor, revision;
+    sscanf(output, "%d.%d.%d", &major, &minor, &revision);
+
     // Print the version.
-    char version_message[18];
-
-    version_message[0] = '\0';
-
-    strcat(version_message, "-- version ");
-    strcat(version_message, output);
-
+    char version_message[24];
+    sprintf(version_message, "-- version %d.%d.%d", major, minor, revision);
     print_log(version_message);
 
     // Version needs to be 1.4.3+
-    int major, minor, revision;
-    sscanf(output, "%d.%d.%d", &major, &minor, &revision);
     if (major < 1 || minor < 2 || revision < 3) {
       printf("Vagrant 1.4.3+ is required.\n");
       printf("Upgrade to version 1.4.3+ and try me again.\n");
