@@ -35,7 +35,7 @@ Vagrant.configure VAGRANTFILE_API_VERSION do |configure|
     virtualbox.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
 
     # And use the host's DNS proxy too.
-    virtualbox.customize ['modifyvm', :id, '--notdnsproxy1', 'on']
+    virtualbox.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
 
   end
 
